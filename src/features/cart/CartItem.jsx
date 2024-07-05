@@ -1,6 +1,6 @@
 import {
   formatCurrency,
-} from "../../utils/helpers";
+} from "../../utilities/helpers";
 
 
 function CartItem({ item }) {
