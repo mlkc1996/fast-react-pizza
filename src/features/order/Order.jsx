@@ -43,7 +43,7 @@ const order = {
   priorityPrice: 19,
 };
 
-function Order () {
+function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const order = useLoaderData();
   const {
@@ -86,7 +86,7 @@ function Order () {
   );
 }
 
-export async function loader ({ params }) {
+export async function loader({ params }) {
   const { orderId } = params;
   const order = await getOrder(orderId);
   return order;
