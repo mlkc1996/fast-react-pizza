@@ -1,7 +1,7 @@
 import { binarySearch } from "./src/utilities/helpers.js";
 
 const to_insert = 8;
-const arr = [];
+const arr = [7, 9];
 
 const index = binarySearch(arr, (num) => {
   if (to_insert > num) {

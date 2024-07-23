@@ -80,9 +80,9 @@ const cartSlice = createSlice({
         return;
       }
       item.quantity++;
+      state.totalQuantity++;
       item.totalPrice += item.unitPrice;
       state.totalPrice += item.unitPrice;
-      state.totalQuantity += item.quantity;
     },
     decreaseItemQuantity(state, action) {
       const pizzaId = action.payload;
@@ -100,9 +100,12 @@ const cartSlice = createSlice({
         return;
       }
       item.quantity--;
+      state.totalQuantity--;
       item.totalPrice -= item.unitPrice;
       state.totalPrice -= item.unitPrice;
-      state.totalQuantity -= item.quantity;
+      if (item.quantity === 0) {
+        state.cart.splice(index, 1);
+      }
     },
     clearCart(state) {
       state.cart.splice(0, state.cart.length);

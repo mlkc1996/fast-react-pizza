@@ -15,7 +15,7 @@ function CreateUser() {
       return;
     }
     dispatch(updateName(username));
-    navigate("/order/new");
+    navigate("/menu");
   }
 
   return (
@@ -34,7 +34,7 @@ function CreateUser() {
 
       {username !== "" && (
         <div>
-          <Button type="primary" to="/order/new">
+          <Button type="primary" onClick={handleSubmit}>
             Start ordering
           </Button>
         </div>

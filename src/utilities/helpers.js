@@ -24,26 +24,23 @@ export const binarySearch = (arr, callback, low, high) => {
   if (!arr.length) {
     return 0;
   }
-
   if (low === undefined) {
     low = 0;
   }
-  if (!high) {
+  if (high === undefined) {
     high = arr.length;
   }
-
   if (low >= high) {
     return low;
   }
-
-  const half_index = Math.ceil((low + high) / 2);
+  const half_index = Math.ceil((low + high) / 2) - 1;
   const pivot = arr[half_index];
   switch (callback(pivot)) {
     case 0:
       return half_index;
-    case -1:
-      return binarySearch(arr, callback, low, half_index - 1);
     case 1:
       return binarySearch(arr, callback, half_index + 1, high);
+    case -1:
+      return binarySearch(arr, callback, low, half_index - 1);
   }
 };

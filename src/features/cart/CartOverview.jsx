@@ -6,6 +6,10 @@ function CartOverview() {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
+  if (!totalQuantity) {
+    return null;
+  }
+
   return (
     <div className="flex items-center justify-between bg-stone-800 p-4 text-sm uppercase text-stone-200 sm:px-6 md:text-base">
       <p className="space-x-4 font-semibold text-stone-300 sm:space-x-6">
