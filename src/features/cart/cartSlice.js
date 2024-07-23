@@ -14,11 +14,13 @@ import { binarySearch } from "../../utilities/helpers";
  * @type {{
  *  cart:CartItem[]
  *  totalPrice:number
+ *   totalQuantity:number
  * }}
  */
 const initialState = {
   cart: [],
   totalPrice: 0,
+  totalQuantity: 0,
 };
 
 const cartSlice = createSlice({
@@ -27,12 +29,12 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       const { payload: newItem } = action;
-      const index = binarySearch(state.cart, ({ pizzaId }) => {
-        if (newItem.pizzaId > pizzaId) {
+      const index = binarySearch(state.cart, (cartItem) => {
+        if (newItem.pizzaId > cartItem?.pizzaId) {
           return 1;
         }
 
-        if (newItem.pizzaId < pizzaId) {
+        if (newItem.pizzaId < cartItem?.pizzaId) {
           return -1;
         }
 
@@ -41,6 +43,7 @@ const cartSlice = createSlice({
       state.cart.splice(index, 0, newItem);
       newItem.totalPrice = newItem.unitPrice * newItem.quantity;
       state.totalPrice += newItem.totalPrice;
+      state.totalQuantity += newItem.quantity;
     },
     removeItem(state, action) {
       const pizzaId = action.payload;
@@ -58,8 +61,8 @@ const cartSlice = createSlice({
         return;
       }
       state.cart.splice(index, 1);
-      state.totalPrice -= item.totalPrice;
-      state.totalPrice = Math.max(state.totalPrice, 0);
+      state.totalPrice = Math.max(state.totalPrice - item.totalPrice, 0);
+      state.totalQuantity = Math.max(state.totalQuantity - item.quantity, 0);
     },
     increaseItemQuantity(state, action) {
       const pizzaId = action.payload;
@@ -79,6 +82,7 @@ const cartSlice = createSlice({
       item.quantity++;
       item.totalPrice += item.unitPrice;
       state.totalPrice += item.unitPrice;
+      state.totalQuantity += item.quantity;
     },
     decreaseItemQuantity(state, action) {
       const pizzaId = action.payload;
@@ -98,10 +102,12 @@ const cartSlice = createSlice({
       item.quantity--;
       item.totalPrice -= item.unitPrice;
       state.totalPrice -= item.unitPrice;
+      state.totalQuantity -= item.quantity;
     },
     clearCart(state) {
       state.cart.splice(0, state.cart.length);
       state.totalPrice = 0;
+      state.totalQuantity = 0;
     },
   },
 });
