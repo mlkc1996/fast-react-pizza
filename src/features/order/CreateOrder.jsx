@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "./../../services/apiRestaurant";
 import Button from "../../ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { updateName } from "./../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -39,6 +41,14 @@ function CreateOrder() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const formErrors = useActionData();
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+  const updateUsername = (e) => {
+    if (!e.target.value) {
+      return;
+    }
+    dispatch(updateName(e.target.value));
+  };
 
   return (
     <div className="px-4 py-6">
@@ -50,7 +60,14 @@ function CreateOrder() {
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
           <div className="grow">
-            <input type="text" name="customer" required className="input" />
+            <input
+              type="text"
+              name="customer"
+              required
+              className="input"
+              value={username}
+              onBlur={updateUsername}
+            />
           </div>
         </div>
 
